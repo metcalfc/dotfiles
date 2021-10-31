@@ -1,0 +1,687 @@
+"*****************************************************************************
+"" Vim-PLug core
+"*****************************************************************************
+
+if !has('nvim')
+  let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+else
+  let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+endif
+
+if !filereadable(vimplug_exists)
+  if !executable("curl")
+    echoerr "You have to install curl or first install vim-plug yourself!"
+    execute "q!"
+  endif
+  echo "Installing Vim-Plug..."
+  echo ""
+  silent exec "!\curl -fLo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  let g:not_finish_vimplug = "yes"
+
+  autocmd VimEnter * PlugInstall
+endif
+
+" I use the same vimrc for both nvim and vim
+call plug#begin('~/.vim/plugged')
+
+" Add icons to vim with a nerd font
+Plug 'ryanoasis/vim-devicons'
+
+" A few plugins to manage fancy status lines in vim, zsh, and tmux
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
+
+" switching between a single-line statement and a multi-line one. It offers
+" the following default keybindings, which can be customized:
+"
+" gS to split a one-liner into multiple lines
+" gJ (with the cursor on the first line of a block) to join a block into a
+" single-line statement.
+Plug 'AndrewRadev/splitjoin.vim'
+
+" You need to be using a modern xterm-compatible terminal emulator that
+" supports bracketed paste mode. xterm, urxvt, iTerm2, gnome-terminal (and
+" other terminals using libvte) are known to work.
+"
+" Then whenever you are in the insert mode and paste into your terminal
+" emulator using command+v, shift+insert, ctrl+shift+v or middle-click, vim
+" will automatically :set paste for you.
+Plug 'ConradIrwin/vim-bracketed-paste'
+
+" This plug-in provides automatic closing of quotes, parenthesis, brackets,
+" etc.; besides some other related features that should make your time in
+" insert mode a little bit easier.
+Plug 'Raimondi/delimitMate'
+
+" Supertab is a plugin which allows you to perform all your insert completion
+" (|ins-completion|) using the tab key.
+Plug 'ervandew/supertab'
+
+" A collection of language packs for Vim.
+" Should replace Dockerfile, json, toml, etc.
+Plug 'sheerun/vim-polyglot'
+
+" Syntastic is a syntax checking plugin for Vim created by Martin Grenfell. It
+" runs files through external syntax checkers and displays any resulting
+" errors to the user. This can be done on demand, or automatically as files
+" are saved. If syntax errors are detected, the user is notified and is happy
+" because they didn't have to compile their code or execute their script to
+" find them.
+Plug 'vim-syntastic/syntastic'
+
+" Vim syntax file for Docker's Dockerfile and snippets for snipMate.
+"Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
+
+" JSON for Vim: distinct highlighting of keywords vs values,
+" JSON-specific (non-JS) warnings, quote concealing.
+"Plug 'elzr/vim-json', {'for' : 'json'}
+
+" Vim syntax for TOML
+"Plug 'cespare/vim-toml'
+
+" Syntax highlighting, matching rules and mappings for the original Markdown
+" and extensions. (must come after tabular)
+" Plug 'plasticboy/vim-markdown'
+
+" My current colorscheme of the hour
+Plug 'morhetz/gruvbox'
+
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/grep.vim'
+Plug 'majutsushi/tagbar'
+Plug 'dense-analysis/ale'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+
+Plug 'aliou/bats.vim' " bats testing framework
+
+Plug 'earthly/earthly.vim', { 'branch': 'main' }
+
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
+endif
+let g:make = 'gmake'
+if exists('make')
+        let g:make = 'make'
+endif
+Plug 'Shougo/vimproc.vim', {'do': g:make}
+
+"" Vim-Session
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+
+" c
+Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
+Plug 'ludwig/split-manpage.vim'
+
+" go
+"" Go Lang Bundle
+Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+
+" html
+"" HTML Bundle
+Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'tpope/vim-haml'
+Plug 'mattn/emmet-vim'
+
+" javascript
+"" Javascript Bundle
+Plug 'jelera/vim-javascript-syntax'
+
+" python
+"" Python Bundle
+Plug 'davidhalter/jedi-vim'
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+
+" ruby
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rake'
+Plug 'tpope/vim-projectionist'
+Plug 'thoughtbot/vim-rspec'
+Plug 'ecomba/vim-ruby-refactoring', {'branch': 'main'}
+
+" typescript
+Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+
+" chezmoi
+Plug 'alker0/chezmoi.vim'
+Plug 'Lilja/vim-chezmoi'
+let g:chezmoi = "enabled"
+
+call plug#end()
+
+"=====================================================
+"===================== SETTINGS ======================
+
+set nocompatible
+filetype off
+filetype plugin indent on
+
+set ttyfast
+
+if !has('nvim')
+  set ttymouse=xterm2
+  set ttyscroll=3
+endif
+
+set mouse=a                     " Enable mouse mode
+
+"" Set default encoding to UTF-8
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+"" Fix backspace indent
+set backspace=indent,eol,start
+
+"" Tabs. May be overridden by autocmd rules
+set tabstop=4
+set softtabstop=0
+set shiftwidth=4
+set expandtab
+
+"" Enable hidden buffers
+set hidden
+
+"" Searching
+set ignorecase               " Search case insensitive...
+set smartcase                " ... but not it begins with upper case
+set incsearch                   " Shows the match while typing
+set hlsearch                    " Highlight found searches
+
+set noshowmatch              " Do not show matching brackets by flickering
+set noshowmode               " We show the mode with airline or lightline
+
+set fileformats=unix,dos,mac " Prefer Unix over Windows over OS 9 formats
+
+if exists('$SHELL')
+    set shell=$SHELL
+else
+    set shell=/bin/sh
+endif
+
+" session management
+let g:session_directory = "~/.config/nvim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+
+set laststatus=2
+
+set autoread                    " Automatically reread changed files without asking me anything
+set autoindent
+
+set noerrorbells             " No beeps
+set number                   " Show line numbers
+set showcmd                  " Show me what I'm typing
+set noswapfile               " Don't use swapfile
+set nobackup                 " Don't create annoying backup files
+set splitright               " Split vertical windows right to the current windows
+set splitbelow               " Split horizontal windows below to the current windows
+set autowrite                " Automatically save before :next, :make etc.
+
+
+set completeopt=menu,menuone
+set nocursorcolumn           " speed up syntax highlighting
+set nocursorline
+set updatetime=300
+set pumheight=10             " Completion window max size
+set conceallevel=2           " Concealed text is completely hidden
+set iskeyword-=.                    " '.' is an end of word designator
+set iskeyword-=#                    " '#' is an end of word designator
+set iskeyword-=-                    " '-' is an end of word designator
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
+
+set lazyredraw
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:␣,nbsp:. " Highlight problematic whitespace
+set showbreak=↪
+
+"http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
+set clipboard^=unnamed
+set clipboard^=unnamedplus
+
+" increase max memory to show syntax highlighting for large files
+set maxmempattern=20000
+
+" ~/.viminfo needs to be writable and readable. Set oldfiles to 1000 last
+" recently opened files, :FzfHistory uses it
+set viminfo='1000
+
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.cache/vim
+endif
+
+" Instead of reverting the cursor to the last position in the buffer, we
+" set it to the first line when editing a git commit message
+au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+
+" color
+if (has("termguicolors"))
+  set termguicolors
+endif
+syntax enable
+set t_Co=256
+set background=dark
+let g:rehash256 = 1
+colorscheme gruvbox
+let g:gruvbox_contrast_dark='soft'
+let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+
+" plugin for nice vim colors
+let g:CSApprox_loaded = 1
+
+" IndentLine
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 0
+let g:indentLine_char = '┆'
+let g:indentLine_faster = 1
+
+"let airline#extensions#tmuxline#snapshot_file = "~/src/dotfiles/tmux-prompt.sh"
+
+" Adjust viewports to the same size
+map <Leader>= <C-w>=
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+noremap j gj
+noremap k gk
+
+" I prefer to toggle search highlighting rather than clear the current
+" search results.
+nmap <silent> <leader>/ :set invhlsearch<CR>
+
+" Find merge conflict markers
+map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+
+" Shortcuts
+" Change Working Directory to that of the current file
+cmap cwd lcd %:p:h
+cmap cd. lcd %:p:h
+
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+
+" Allow using the repeat operator with a visual selection (!)
+" http://stackoverflow.com/a/8064607/127816
+vnoremap . :normal .<CR>
+
+augroup filetypedetect
+  command! -nargs=* -complete=help Help vertical belowright help <args>
+  autocmd FileType help wincmd L
+
+  autocmd BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
+  autocmd BufNewFile,BufRead .nginx.conf*,nginx.conf* setf nginx
+  autocmd BufNewFile,BufRead *.hcl setf conf
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+  autocmd BufRead,BufNewFile *.gotmpl set filetype=gotexttmpl
+
+  autocmd BufNewFile,BufRead *.ino setlocal noet ts=4 sw=4 sts=4
+  autocmd BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.html setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.hcl setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.proto setlocal expandtab shiftwidth=2 tabstop=2
+
+  autocmd FileType yaml setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
+augroup END
+
+"=====================================================
+"===================== MAPPINGS ======================
+
+" This comes first, because we have mappings that depend on leader
+" With a map leader it's possible to do extra key combinations
+" i.e: <leader>w saves the current file
+let mapleader = ","
+" Vim has a second 'leader' key called 'local leader'. This is meat to be a
+" prefix for mappings that only take effect for certain types of files,
+" like Python files or HTML files.
+" http://learnvimscriptthehardway.stevelosh.com/chapters/11.html
+let maplocalleader = "\\"
+
+" Arrow Key Fix
+" https://github.com/spf13/spf13-vim/issues/780
+if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
+    inoremap <silent> <C-[>OC <RIGHT>
+endif
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+noremap j gj
+noremap k gk
+
+" Sanity capitalization fixes
+command! -bang -nargs=* -complete=file E e<bang> <args>
+command! -bang -nargs=* -complete=file W w<bang> <args>
+command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+command! -bang Wa wa<bang>
+command! -bang WA wa<bang>
+command! -bang Q q<bang>
+command! -bang QA qa<bang>
+command! -bang Qa qa<bang>
+
+" Yank from the cursor to the end of the line, to be consistent with C and D.
+nnoremap Y y$
+
+" Splits ,v and ,h to open new splits (vertical and horizontal)
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>h <C-w>s<C-w>j
+
+" For when you forget to sudo.. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
+
+" Some useful quickfix shortcuts for quickfix
+map <C-n> :cn<CR>
+map <C-m> :cp<CR>
+nnoremap <leader>a :cclose<CR>
+
+" put quickfix window always to the bottom
+augroup quickfix
+    autocmd!
+    autocmd FileType qf wincmd J
+    autocmd FileType qf setlocal wrap
+augroup END
+
+" Enter automatically into the files directory
+autocmd BufEnter * silent! lcd %:p:h
+
+" Automatically resize screens to be equally the same
+" autocmd VimResized * wincmd =
+
+" Fast saving
+nnoremap <leader>w :w!<cr>
+nnoremap <silent> <leader>q :q!<CR>
+
+" Center the screen
+nnoremap <space> zz
+
+" Remove search highlight
+" nnoremap <leader><space> :nohlsearch<CR>
+function! s:clear_highlight()
+  let @/ = ""
+  call go#guru#ClearSameIds()
+endfunction
+nnoremap <silent> <leader><space> :<C-u>call <SID>clear_highlight()<CR>
+
+" Source the current Vim file
+" nnoremap <leader>pr :Runtime<CR>
+
+" Close all but the current one
+nnoremap <leader>o :only<CR>
+
+" Better split switching
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Print full path
+map <C-f> :echo expand("%:p")<cr>
+
+" Visual linewise up and down by default (and use gj gk to go quicker)
+noremap <Up> gk
+noremap <Down> gj
+noremap j gj
+noremap k gk
+
+" Exit on j
+imap jj <Esc>
+
+" Source (reload configuration)
+nnoremap <silent> <F5> :source ~/.vimrc<CR>
+
+nnoremap <F6> :setlocal spell! spell?<CR>
+
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Same when moving up and down
+noremap <C-d> <C-d>zz
+noremap <C-u> <C-u>zz
+
+" Remap H and L (top, bottom of screen to left and right end of line)
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L g_
+
+" Act like D and C
+nnoremap Y y$
+
+" Do not show stupid q: window
+map q: :q
+
+" Don't move on * I'd use a function for this but Vim clobbers the last search
+" when you're in a function so fuck it, practicality beats purity.
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
+
+" mimic the behavior of /%Vfoobar which searches within the previously
+" selected visual selection
+" while in search mode, pressing / will do this
+vnoremap / <Esc>/\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
+vnoremap ? <Esc>?\%><C-R>=line("'<")-1<CR>l\%<<C-R>=line("'>")+1<CR>l
+
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+if !has('gui_running')
+  set notimeout
+  set ttimeout
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
+endif
+
+" Visual Mode */# from Scrooloose {{{
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+
+" create a go doc comment based on the word under the cursor
+function! s:create_go_doc_comment()
+  norm "zyiw
+  execute ":put! z"
+  execute ":norm I// \<Esc>$"
+endfunction
+nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
+
+
+"===================== PLUGINS ======================
+
+"" NERDTree configuration
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 50
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+
+" grep.vim
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
+
+" terminal emulation
+nnoremap <silent> <leader>sh :terminal<CR>
+
+"===================== Syntastic ====================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" ==================== delimitMate ====================
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_smart_quotes = 1
+let g:delimitMate_expand_inside_quotes = 0
+let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
+
+imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
+
+" ==================== markdown ====================
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_fenced_languages = ['go=go', 'viml=vim', 'bash=sh']
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_toml_frontmatter = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_no_extensions_in_markdown = 1
+
+"*****************************************************************************
+"" Commands
+"*****************************************************************************
+" remove trailing whitespaces
+command! FixWhitespace :%s/\s\+$//e
+
+
+"*****************************************************************************
+"" Functions
+"*****************************************************************************
+if !exists('*s:setupWrapping')
+  function s:setupWrapping()
+    set wrap
+    set wm=2
+    set textwidth=79
+  endfunction
+endif
+
+"*****************************************************************************
+"" Autocmd Rules
+"*****************************************************************************
+"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
+augroup vimrc-sync-fromstart
+  autocmd!
+  autocmd BufEnter * :syntax sync maxlines=200
+augroup END
+
+"" Remember cursor position
+augroup vimrc-remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+
+"" txt
+augroup vimrc-wrapping
+  autocmd!
+  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+augroup END
+
+"" make/cmake
+augroup vimrc-make-cmake
+  autocmd!
+  autocmd FileType make setlocal noexpandtab
+  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
+
+set autoread
+
+
+" create a hugo front matter in toml format to the beginning of a file. Open
+" empty markdown file, i.e: '2018-02-05-speed-up-vim.markdown'. Calling this
+" function will generate the following front matter under the cursor:
+"
+"   +++
+"   author = "Fatih Arslan"
+"   date = 2018-02-03 08:41:20
+"   title = "Speed up vim"
+"   slug = "speed-up-vim"
+"   url = "/2018/02/03/speed-up-vim/"
+"   featured_image = ""
+"   description =  ""
+"   +++
+"
+function! s:create_front_matter()
+  let fm = ["+++"]
+  call add(fm, 'author = "Fatih Arslan"')
+  call add(fm, printf("date = \"%s\"", strftime("%Y-%m-%d %X")))
+
+  let filename = expand("%:r")
+  let tl = split(filename, "-")
+  " in case the file is in form of foo.md instead of
+  " year-month-day-foo.markdown
+  if !empty(str2nr(tl[0]))
+    let tl = split(filename, "-")[3:]
+  endif
+
+  let title = join(tl, " ")
+  let title = toupper(title[0]) . title[1:]
+  call add(fm, printf("title = \"%s\"", title))
+
+  let slug = join(tl, "-")
+  call add(fm, printf("slug = \"%s\"", slug))
+  call add(fm, printf("url = \"%s/%s/\"", strftime("%Y/%m/%d"), slug))
+
+  call add(fm, 'featured_image = ""')
+  call add(fm, 'description = ""')
+  call add(fm, "+++")
+  call append(0, fm)
+endfunction
+
+" create a shortcode that inserts an image holder with caption or class
+" attribute that defines on how to set the layout.
+function! s:create_figure()
+  let fig = ["{{< figure"]
+  call add(fig, 'src="/images/image.jpg"')
+  call add(fig, 'class="left"')
+  call add(fig, 'caption="This looks good!"')
+  call add(fig, ">}}")
+
+  let res = [join(fig, " ")]
+  call append(line("."), res)
+endfunction
+
+augroup md
+  autocmd!
+  autocmd Filetype markdown command! -bang HugoFrontMatter call <SID>create_front_matter()
+  autocmd Filetype markdown command! -bang HugoFig call <SID>create_figure()
+augroup END
+
+" ==================== vim-json ====================
+let g:vim_json_syntax_conceal = 0
+
+" ==================== Completion + Snippet ====================
+let g:SuperTabDefaultCompletionType = "context"
+
+" vim: sw=2 sw=2 et
