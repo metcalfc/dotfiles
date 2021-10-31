@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# No brew on Windows or Codespaces
+{{- if (and (ne .chezmoi.os "windows") (not .ephemeral)) }}
+
+# Real Linux needs build essential prereqs
+{{- if (eq .chezmoi.os "linux") -}}
+{{ if or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu") }}
+
+# Install linuxbrew requirements
+# SEE: https://docs.brew.sh/Homebrew-on-Linux#debian-or-ubuntu
+sudo apt-get install --yes \
+    build-essential procps curl file git
+
+{{ end }}
+{{ end }}
+
+# Mac and Linux uses brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+{{- end }}

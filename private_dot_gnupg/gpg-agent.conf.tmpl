@@ -1,0 +1,13 @@
+# https://github.com/drduh/config/blob/master/gpg-agent.conf
+# https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
+enable-ssh-support
+ttyname $GPG_TTY
+default-cache-ttl 1800
+max-cache-ttl 1800
+{{ if (eq .chezmoi.os "darwin") }}
+pinentry-program /usr/local/bin/pinentry-mac
+{{ else if (eq .chezmoi.os "linux" ) }}
+pinentry-program /usr/bin/pinentry-tty
+{{ else }}
+# other operating system
+{{ end }}

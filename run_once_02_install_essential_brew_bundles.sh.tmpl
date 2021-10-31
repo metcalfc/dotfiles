@@ -1,0 +1,106 @@
+#!/bin/sh
+
+# No brew on Windows or Codespaces
+{{- if (and (ne .chezmoi.os "windows") (not .ephemeral)) }}
+
+# Ensure essential bundles are installed on Linux and Mac
+brew bundle --file=/dev/stdin <<EOF
+brew "awscli"
+brew "git"
+brew "nvim"
+brew "coreutils"
+brew "chezmoi"
+brew "direnv"
+brew "fzf"
+brew "git"
+brew "gh"
+brew "go"
+brew "goreleaser"
+brew "gpg2"
+brew "hub"
+brew "hugo"
+brew "jq"
+brew "mosh"
+brew "neovim"
+brew "netlify-cli"
+brew "node"
+brew "pinentry"
+brew "powerline-go"
+brew "pre-commit"
+brew "protobuf"
+brew "protoc-gen-go"
+brew "pyenv"
+brew "pyenv-virtualenv"
+brew "python"
+brew "ruby-build"
+brew "rbenv"
+brew "rbenv-gemset"
+brew "shellcheck"
+brew "ssh-copy-id"
+brew "tmux"
+brew "wget"
+brew "zip"
+brew "zsh"
+brew "zsh-completions"
+brew "zsh-syntax-highlighting"
+EOF
+
+# Linux only brew
+{{ if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.osRelease.id "ubuntu" }}
+
+brew bundle --file=/dev/stdin <<EOF
+EOF
+
+{{ end }}
+
+# Mac only brew
+{{ else if eq .chezmoi.os "darwin" }}
+
+brew bundle --file=/dev/stdin <<EOF
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts" 
+
+brew "brew-cask-completion"
+brew "cask"
+brew "clang-format"
+brew "dive"
+brew "hopenpgp-tools"
+brew "mas"
+brew "pinentry-mac"
+brew "pinentry"
+brew "python3"
+brew "reattach-to-user-namespace"
+brew "ykman"
+brew "yubikey-personalization" 
+cask "1password-cli"
+cask "1password"
+cask "alacritty"
+cask "docker"
+cask "fantastical"
+cask "font-awesome-terminal-fonts"
+cask "font-fira-code"
+cask "github"
+cask "google-chrome"
+cask "iterm2"
+cask "microsoft-edge"
+cask "microsoft-teams"
+cask "notion"
+cask "slack"
+cask "visual-studio-code"
+cask "vlc"
+cask "zoom"
+
+#mas "Amphetamine", id: 937984704
+#mas "Contacts+", id: 1094748271
+#mas "Moom", id: 419330170
+#mas "Paprika Recipe Manager 3", id: 1303222628
+#mas "Unsplash Wallpapers", id: 1284863847
+#mas "Webcam Settings", id: 533696630
+#mas "Microsoft Remote Desktop", id: 1295203466
+EOF
+
+{{ end }}
+
+{{ end }}

@@ -1,0 +1,18 @@
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle brew
+antigen bundle docker
+antigen bundle docker-compose
+antigen bundle direnv
+antigen bundle git
+antigen bundle gh
+antigen bundle github
+antigen bundle golang
+antigen bundle hugo
+antigen bundle gpg-agent
+antigen bundle npm
+antigen bundle rbenv
+antigen bundle vscode
+antigen bundle unixorn/autoupdate-antigen.zshplugin
+antigen apply
