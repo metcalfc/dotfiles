@@ -1,5 +1,13 @@
 antigen use oh-my-zsh
 
+# OS specific plugins
+if [[ $CURRENT_OS == 'OS X' ]]; then
+    antigen bundle brew-cask
+    antigen bundle osx
+elif [[ $CURRENT_OS == 'Linux' ]]; then
+    # None so far...
+fi
+
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle brew
 antigen bundle docker
@@ -14,5 +22,6 @@ antigen bundle gpg-agent
 antigen bundle npm
 antigen bundle rbenv
 antigen bundle vscode
+antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle unixorn/autoupdate-antigen.zshplugin
 antigen apply
