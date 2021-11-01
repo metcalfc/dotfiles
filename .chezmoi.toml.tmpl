@@ -7,9 +7,39 @@
 {{-   $ephemeral = true -}}
 {{- end -}}
 
+{{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
+{{- $interactive := stdinIsATTY -}}
+
+{{- /* Initializes the name variable with a default value */ -}}
+{{- $name := "Chad Metcalf" -}}
+{{- /* If name was previously set, reuses it */ -}}
+{{- if hasKey . "name" -}}
+{{-   $name = .name -}}
+{{- /* Otherwise, if running interactively, prompts for a name */ -}}
+{{- else if $interactive -}}
+{{-   $name = promptString "name" $name -}}
+{{- end -}}
+
+{{- /* Does the same for the email */ -}}
+{{- $email := "metcalfc@gmail.com" -}}
+{{- if hasKey . "email" -}}
+{{-   $email = .email -}}
+{{- else if $interactive -}}
+{{-   $email = promptString "email" $email -}}
+{{- end -}}
+
+{{- /* Does the same for the gpg public key */ -}}
+{{- $gpgkey := "" -}}
+{{- if hasKey . "gpgkey" -}}
+{{-   $gpgkey = .gpgkey -}}
+{{- else if $interactive -}}
+{{-   $gpgkey = promptString "gpgkey" $gpgkey -}}
+{{- end -}}
+
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
     ephemeral = {{ $ephemeral }}
-    name = "Chad Metcalf"
-    email = "metcalfc@gmail.com"
+    name = "{{ $name }}"
+    email = "{{ $email }}"
+    gpgkey = "{{ $gpgkey }}"

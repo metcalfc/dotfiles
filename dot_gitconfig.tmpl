@@ -1,8 +1,8 @@
 [user]
 	name = Chad Metcalf
 	email = metcalfc@gmail.com
-{{ if (not .ephemeral) }}
-	signingkey =  {{ (onepasswordItemFields "GPG Master").PublicKey.v  }}
+{{ if ( .gpgkey) }}
+	signingkey =  {{ .gpgkey  }}
 {{ end }}
 
 [hub]

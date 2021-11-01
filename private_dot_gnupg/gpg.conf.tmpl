@@ -43,9 +43,9 @@ use-agent
 # Disable recipient key ID in messages
 throw-keyids
 # Default/trusted key ID to use (helpful with throw-keyids)
-{{ if (not .ephemeral) }}
-default-key 0x{{- (onepasswordItemFields "GPG Master").PublicKey.v  }}
-trusted-key 0x{{- (onepasswordItemFields "GPG Master").PublicKey.v  }}
+{{ if ( .gpgkey) }}
+default-key 0x{{- ( .gpgkey)  }}
+trusted-key 0x{{- ( .gpgkey)  }}
 {{ end }}
 # Group recipient keys (preferred ID last)
 #group keygroup = 0xFF00000000000001 0xFF00000000000002 0xFF3E7D88647EBCDB
