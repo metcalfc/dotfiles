@@ -82,6 +82,15 @@ exit() {
   fi
 }
 
+{{ if eq .chezmoi.os "darwin" -}}
+
+{{ else if eq .chezmoi.os "linux" -}}
+  eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+{{ end -}}
+
+# make this a template for {{ .chezmoi.os }} vs mac
+
+
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.local/share/zsh
 
