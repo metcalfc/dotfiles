@@ -1,6 +1,61 @@
-source $HOME/.local/share/antigen.zsh
-# Load Antigen configurations
-antigen init ~/.antigenrc
+# load zgenom
+source "${HOME}/.zgenom/zgenom.zsh"
+
+# Check for plugin and zgenom updates every 7 days
+# This does not increase the startup time.
+zgenom autoupdate
+
+# if the init script doesn't exist
+if ! zgenom saved; then
+    echo "Creating a zgenom save"
+
+    # Ohmyzsh base library
+    zgenom ohmyzsh
+
+    # plugins
+    zgenom ohmyzsh plugins/aws
+    zgenom ohmyzsh plugins/brew
+    zgenom ohmyzsh plugins/direnv
+    zgenom ohmyzsh plugins/git
+    zgenom ohmyzsh plugins/gh
+    zgenom ohmyzsh plugins/github
+    zgenom ohmyzsh plugins/golang
+    zgenom ohmyzsh plugins/gcloud
+    zgenom ohmyzsh plugins/hugo
+    zgenom ohmyzsh plugins/node
+    zgenom ohmyzsh plugins/npm
+    zgenom ohmyzsh plugins/vscode
+    zgenom ohmyzsh plugins/sudo
+
+    # just load the completions
+    zgenom ohmyzsh --completion plugins/docker
+    zgenom ohmyzsh --completion plugins/docker-compose
+
+    # Install ohmyzsh osx plugin if on macOS
+    [[ "$(uname -s)" = Darwin ]] && zgenom ohmyzsh plugins/osx &&  zgenom ohmyzsh plugins/brew-cask
+
+    zgenom load zsh-users/zsh-syntax-highlighting
+    zgenom load zsh-users/zsh-autosuggestions
+
+    # Automatically run zgenom update and zgenom selfupdate every 7 days.
+    zgenom load unixorn/autoupdate-zgenom
+
+    # Colorize the things if you have grc installed. Well, some of the
+    # things, anyway.
+    zgenom load unixorn/warhol.plugin.zsh
+    zgenom load chrissicool/zsh-256color
+
+    # completions
+    zgenom load zsh-users/zsh-completions
+
+    # save all to init script
+    zgenom save
+
+    # Compile your zsh files
+    zgenom compile "$HOME/.zshrc"
+
+fi
+
 
 # Fix gpg before anything gets sourced. This was difficult to track down
 # and I'm still not 100% sure what is happening. This was the debug tool that
