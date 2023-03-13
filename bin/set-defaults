@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Sets macOS defaults by running $ZSH/macos/set-defaults.sh.
+# Sets macOS defaults by running $DOTFILES/macos/set-defaults.sh.
 
 if test ! "$(uname)" = "Darwin"
   then
   exit 0
 fi
 
-exec $ZSH/macos/set-defaults.sh
+exec $DOTFILES/macos/set-defaults.sh

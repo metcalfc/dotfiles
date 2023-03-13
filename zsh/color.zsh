@@ -24,12 +24,12 @@ fi
 
 # use gnu dircolors
 if [ -x `whence -p gdircolors` ]; then alias dircolors='gdircolors'; fi
-eval `dircolors --sh ${ZSH}/../colors/gruvbox.dircolors`
+eval `dircolors --sh ${DOTFILES}/colors/gruvbox.dircolors`
 
 # enable ls colors for zsh completion
 if [ -x `whence -p gls` ]; then alias ls='gls --color=auto'; fi
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-if [[ -f ${ZSH}/../colors/gruvbox_256palette_osx.sh ]]; then
-    source ${ZSH}/../colors/gruvbox_256palette_osx.sh
+if [[ -f ${DOTFILES}/../colors/gruvbox_256palette_osx.sh ]]; then
+    source ${DOTFILES}/colors/gruvbox_256palette_osx.sh
 fi

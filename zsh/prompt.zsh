@@ -6,11 +6,9 @@ if type "powerline-go" > /dev/null; then
 
   function powerline_precmd() {
       if [[ -z $PRESENT ]]; then
-
-      eval "$(powerline-go -eval -modules "host,venv,cwd,perms,jobs,root" -modules-right "git,${KUBE_POWER}docker-context${A
-WS_POWER}" -error $? -shell zsh)"
+        eval "$(powerline-go -eval -modules "host,venv,cwd,perms,jobs,root" -modules-right "git" -error $? -shell zsh -theme gruvbox -hostname-only-if-ssh)"
       else
-      eval "$(powerline-go -eval -modules "cwd" -modules-right "docker-context" -error $? -shell zsh)"
+        eval "$(powerline-go -eval -modules "cwd" -error $? -shell zsh -theme gruvbox)"
       fi
   }
 
