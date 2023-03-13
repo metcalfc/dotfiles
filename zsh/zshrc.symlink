@@ -1,0 +1,132 @@
+
+# shortcut to this dotfiles path is $ZSH
+export ZSH=$HOME/src/dotfiles
+
+# your project folder that we can `c [tab]` to
+export PROJECTS=~/src
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+# load zgenom
+source "${HOME}/.zgenom/zgenom.zsh"
+
+# Check for plugin and zgenom updates every 7 days
+# This does not increase the startup time.
+zgenom autoupdate
+
+# if the init script doesn't exist
+if ! zgenom saved; then
+    echo "Creating a zgenom save"
+
+    # Ohmyzsh base library
+    zgenom ohmyzsh
+
+    # plugins
+    zgenom ohmyzsh plugins/brew
+    zgenom ohmyzsh plugins/direnv
+    zgenom ohmyzsh plugins/git
+    zgenom ohmyzsh plugins/gh
+    zgenom ohmyzsh plugins/github
+    zgenom ohmyzsh plugins/golang
+    zgenom ohmyzsh plugins/vscode
+    zgenom ohmyzsh plugins/sudo
+
+    # just load the completions
+    zgenom ohmyzsh --completion plugins/docker
+    zgenom ohmyzsh --completion plugins/docker-compose
+
+    # Install ohmyzsh osx plugin if on macOS
+    [[ "$(uname -s)" = Darwin ]] && zgenom ohmyzsh plugins/osx &&  zgenom ohmyzsh plugins/brew-cask
+
+    zgenom load zsh-users/zsh-syntax-highlighting
+    zgenom load zsh-users/zsh-autosuggestions
+
+    # Automatically run zgenom update and zgenom selfupdate every 7 days.
+    zgenom load unixorn/autoupdate-zgenom
+
+    # Colorize the things if you have grc installed. Well, some of the
+    # things, anyway.
+    zgenom load unixorn/warhol.plugin.zsh
+    zgenom load chrissicool/zsh-256color
+
+    # completions
+    zgenom load zsh-users/zsh-completions
+
+    # save all to init script
+    zgenom save
+
+    # Compile your zsh files
+    zgenom compile "$HOME/.zshrc"
+
+fi
+
+
+# Fix gpg before anything gets sourced. This was difficult to track down
+# and I'm still not 100% sure what is happening. This was the debug tool that
+# got me this far:
+#  echo "test" | gpg --clearsign
+if [ Linux = $(uname) ]; then
+    export GPG_TTY=$(tty)
+fi
+
+# https://arslan.io/2019/01/07/using-the-ipad-pro-as-my-development-machine/
+exit() {
+  if [[ -z $TMUX ]]; then
+    builtin exit
+    return
+  fi
+
+  panes=$(tmux list-panes | wc -l)
+  wins=$(tmux list-windows | wc -l)
+  count=$(($panes + $wins - 1))
+  if [ $count -eq 1 ]; then
+    tmux detach
+  else
+    builtin exit
+  fi
+}
+
+
+# all of our zsh files
+typeset -U config_files
+config_files=($ZSH/**/*.zsh)
+
+# load the path files
+for file in ${(M)config_files:#*/path.zsh}
+do
+  source $file
+done
+
+# load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
+# initialize autocomplete here, otherwise functions won't be loaded
+autoload -U compinit
+compinit
+
+# load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}
+do
+  source $file
+done
+
+unset config_files
+
+# Better history
+# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+

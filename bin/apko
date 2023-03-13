@@ -1,0 +1,11 @@
+#!/bin/bash
+
+VERSION=0.7.1
+
+docker run -v "$PWD":/work cgr.dev/chainguard/apko:${VERSION} "$@"
+
+IMAGE_TAR="${PWD}/${@: -1}"
+
+if  tar tf "${IMAGE_TAR}" &> /dev/null ; then  
+	docker load <  "${IMAGE_TAR}"
+fi
