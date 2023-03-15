@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # dot
 #
@@ -37,8 +37,6 @@ while test $# -gt 0; do
 	esac
 	shift
 done
-
-export DOTFILES=$HOME/.dotfiles
 
 # Set macOS defaults
 $DOTFILES/macos/set-defaults.sh
