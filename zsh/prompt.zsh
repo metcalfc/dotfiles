@@ -2,6 +2,18 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
+if [ ! -f "$DOTFILES/bin/powerline-go" ]; then
+  echo "Installing powerline-go"
+  if [ "$(uname)" = "Darwin" ]; then
+    curl -sL https://github.com/justjanne/powerline-go/releases/download/v1.22.1/powerline-go-darwin-amd64 \
+      -o $DOTFILES/bin/powerline-go
+  else
+    curl -sL https://github.com/justjanne/powerline-go/releases/download/v1.22.1/powerline-go-linux-amd64 \
+      -o $DOTFILES/bin/powerline-go
+  fi
+  chmod +x $DOTFILES/bin/powerline-go
+fi
+
 if type "powerline-go" > /dev/null; then
 
   function powerline_precmd() {
@@ -25,13 +37,4 @@ if type "powerline-go" > /dev/null; then
       install_powerline_precmd
   fi
 
-else
-  echo "Install powerline-go"
 fi
-
-alias kubeon='export KUBE_POWER=kube,'
-alias kubeoff='unset KUBE_POWER'
-alias awson='export AWS_POWER=,aws'
-alias awsoff='unset AWS_POWER'
-alias present='export PRESENT=$(pwd)'
-alias unpresent='unset PRESENT'
