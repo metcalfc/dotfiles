@@ -8,7 +8,6 @@ function brewme () {
    "nvim" \
    "coreutils" \
    "fzf" \
-   "git" \
    "gh" \
    "jq" \
    "shellcheck" \
