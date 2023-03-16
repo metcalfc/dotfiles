@@ -3,7 +3,7 @@
 # Check for Homebrew
 if test ! $(which brew)
 then
-    brew install vim nvim
+    brew install nvim
 fi
 
 if [ ! -d "${HOME}/.config/nvim" ]; then
