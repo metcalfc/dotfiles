@@ -137,7 +137,14 @@ install_dotfiles () {
   done
 }
 
+install_zengom () {
+  if [ ! -d "${HOME}/.zgenom" ]; then
+    git clone https://github.com/jandamm/zgenom.git "${HOME}/.zgenom"
+  fi
+}
+
 setup_gitconfig
+install_zengom
 install_dotfiles
 
 # If we're on a Mac, let's install and setup homebrew.
