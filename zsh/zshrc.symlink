@@ -37,9 +37,11 @@ if ! zgenom saved; then
     zgenom ohmyzsh plugins/vscode
     zgenom ohmyzsh plugins/sudo
 
-    # just load the completions
-    zgenom ohmyzsh --completion plugins/docker
-    zgenom ohmyzsh --completion plugins/docker-compose
+    # Only load docker plugins if docker is installed
+    if docker &> /dev/null ; then
+      zgenom ohmyzsh --completion plugins/docker
+      zgenom ohmyzsh --completion plugins/docker-compose
+    fi
 
     # Install ohmyzsh osx plugin if on macOS
     [[ "$(uname -s)" = Darwin ]] && zgenom ohmyzsh plugins/osx &&  zgenom ohmyzsh plugins/brew-cask
