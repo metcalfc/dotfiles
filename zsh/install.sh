@@ -10,6 +10,11 @@ then
     brew install starship
 fi
 
-exit 0
+if [ ! -d "${HOME}/.config" ]; then
+    mkdir "${HOME}/.config"
+fi
 
+if [ ! -f "${HOME}/.config/starship.toml" ]; then
+    ln -s "${DOTFILES}/zsh/starship.toml" "${HOME}/.config/starship.toml"
+fi
 
