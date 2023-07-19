@@ -11,8 +11,15 @@ fi
 echo "› sudo softwareupdate -i -a"
 sudo softwareupdate -i -a
 
+if /usr/bin/pgrep -q oahd; then  
+  echo "› rosetta installed"
+else
+  echo "› installing rosetta"
+  sudo softwareupdate --install-rosetta --agree-to-license
+fi
+
 # Check for Homebrew
-if test ! $(which brew)
+if command -v brew
 then
   brew bundle --file=/dev/stdin <<EOF
 tap "homebrew/bundle"
