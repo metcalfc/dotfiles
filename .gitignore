@@ -1,3 +1,5 @@
 git/gitconfig.local.symlink
 bin/powerline-go
 bin/npiperelay.exe
+
+**/packer_compiled.lua
