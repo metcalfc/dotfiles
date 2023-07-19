@@ -8,13 +8,14 @@ fi
 if test ! $(which brew)
 then
     brew install starship
+    brew install fzf
+    brew install atuin
 fi
 
 if [ ! -d "${HOME}/.config" ]; then
-    mkdir "${HOME}/.config"
+    mkdir -p "${HOME}/.config"
 fi
 
 if [ ! -f "${HOME}/.config/starship.toml" ]; then
     ln -s "${DOTFILES}/zsh/starship.toml" "${HOME}/.config/starship.toml"
 fi
-
