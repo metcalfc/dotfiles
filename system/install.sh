@@ -4,6 +4,7 @@
 if test ! $(which brew)
 then
     brew install coreutils
+    brew install atuin
 fi
 
 if [[ ! -z "${WSL_DISTRO_NAME}" ]]; then
