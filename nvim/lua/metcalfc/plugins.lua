@@ -69,10 +69,8 @@ return packer.startup(function(use)
         -- LSP Support
         {'neovim/nvim-lspconfig'},             -- Required
         {                                      -- Optional
-          'williamboman/mason.nvim',
-          run = function()
-            pcall(vim.cmd, 'MasonUpdate')
-          end,
+            "williamboman/mason.nvim",
+            run = ":MasonUpdate" -- :MasonUpdate updates registry contents
         },
         {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
