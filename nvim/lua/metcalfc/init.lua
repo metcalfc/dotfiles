@@ -76,6 +76,9 @@ vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/src/dotfiles/nvim/lua/metcalfc/plug
 --    vim.cmd("so")
 --end)
 
+-- automatically format lua when saved
+vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+
 -- Plugins
 require("metcalfc.plugins")
 
