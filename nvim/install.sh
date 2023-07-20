@@ -3,7 +3,7 @@
 # Check for Homebrew
 if test $(which brew)
 then
-    brew install neovim ripgrep fd
+    brew install neovim ripgrep fd stylua
 fi
 
 if [ ! -d "${HOME}/.config/nvim" ]; then
