@@ -85,7 +85,7 @@ require("metcalfc.config")
 require("nvim-tree").setup()
 
 require("catppuccin").setup({
-	flavour = "frappe",
+    flavour = "frappe",
 })
 -- setup must be called before loading
 vim.cmd.colorscheme("catppuccin")
