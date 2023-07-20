@@ -81,6 +81,11 @@ return packer.startup(function(use)
     }
   }
 
+  use {
+      "ellisonleao/glow.nvim",
+      config = function() require("glow").setup() end
+  }
+
   use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Automatically set up your configuration after cloning packer.nvim
