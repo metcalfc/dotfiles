@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Check for Homebrew
-if test ! $(which brew)
+if test $(which brew)
 then
-    brew install neovim
+    brew install neovim ripgrep fd
 fi
 
 if [ ! -d "${HOME}/.config/nvim" ]; then

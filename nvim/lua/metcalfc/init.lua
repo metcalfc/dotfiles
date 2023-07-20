@@ -61,7 +61,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+--vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -73,34 +73,14 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/src/dotfiles/nvim/lua/metcalfc/packer.lua<CR>");
 
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
+--vim.keymap.set("n", "<leader><leader>", function()
+--    vim.cmd("so")
+--end)
 
 -- Plugins
-
--- Bootstrap packer.nvim
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-      fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-      vim.cmd [[packadd packer.nvim]]
-      return true
-    end
-    return false
-end
-  
-local packer_bootstrap = ensure_packer()
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
-
 require("metcalfc.plugins")
+
+require("metcalfc.config")
 
 -- empty setup using defaults
 require("nvim-tree").setup()
@@ -108,6 +88,6 @@ require("nvim-tree").setup()
 require("catppuccin").setup({
     flavour = "frappe"
 })
-
 -- setup must be called before loading
 vim.cmd.colorscheme "catppuccin"
+
