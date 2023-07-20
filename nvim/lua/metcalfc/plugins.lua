@@ -82,6 +82,24 @@ return packer.startup(function(use)
   }
 
   use {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+  config = function()
+    require('dashboard').setup {
+      theme = "hyper",
+      config = {
+          header = require("metcalfc.config.dashboard"),
+          -- not convinced
+          footer = { [[]],[[☑️ Focus on what matters.]] },
+      }
+    }
+  end,
+    requires = { 'nvim-tree/nvim-web-devicons' }
+}
+
+
+
+  use {
       "ellisonleao/glow.nvim",
       config = function() require("glow").setup() end
   }
