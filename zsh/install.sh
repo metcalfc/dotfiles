@@ -5,17 +5,15 @@ if [ ! -d "${HOME}/.zgenom" ]; then
 fi
 
 # Check for Homebrew
-if test ! $(which brew)
+if test $(which brew)
 then
-    brew install starship
-    brew install fzf
-    brew install atuin
+    brew install starship fzf atuin
 fi
 
 if [ ! -d "${HOME}/.config" ]; then
     mkdir -p "${HOME}/.config"
 fi
 
-if [ ! -f "${HOME}/.config/starship.toml" ]; then
+if [ ! -L "${HOME}/.config/starship.toml" ]; then
     ln -s "${DOTFILES}/zsh/starship.toml" "${HOME}/.config/starship.toml"
 fi

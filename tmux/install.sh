@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check for Homebrew
-if test ! $(which brew)
+if test $(which brew)
 then
     brew install tmux
 fi
@@ -12,7 +12,7 @@ if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
 fi
 
 # check if ~/.config/tmux.conf exists and create a symlink to the one in this repo if not
-if [ ! -f "${HOME}/.config/tmux.conf" ]; then
+if [ ! -L "${HOME}/.config/tmux.conf" ]; then
     ln -s "${DOTFILES}/tmux/tmux.conf" "${HOME}/.config/tmux/tmux.conf"
 fi
 
