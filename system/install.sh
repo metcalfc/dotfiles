@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Check for Homebrew
-if test $(which brew)
+if test "$(which brew)"
 then
     brew install coreutils keychain
 fi
 
-if [[ ! -z "${WSL_DISTRO_NAME}" ]]; then
+if [[ -n "${WSL_DISTRO_NAME}" ]]; then
   if [ ! -e "bin/npiperelay.exe" ]; then
     FILE="npiperelay_windows_amd64.zip"
     NPIPERELAY="https://github.com/jstarks/npiperelay/releases/download/v0.1.0/${FILE}"
