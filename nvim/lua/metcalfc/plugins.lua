@@ -59,6 +59,8 @@ return packer.startup(function(use)
         end,
     })
 
+    use({ "folke/neodev.nvim" })
+
     use({
         "nvim-telescope/telescope.nvim",
         tag = "0.1.2",
