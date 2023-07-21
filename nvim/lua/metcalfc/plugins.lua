@@ -40,6 +40,18 @@ return packer.startup(function(use)
     use("nvim-lua/plenary.nvim") -- Useful lua functions used ny lots of plugins
 
     use({
+        "akinsho/bufferline.nvim",
+        tag = "*",
+        requires = "nvim-tree/nvim-web-devicons",
+        after = "catppuccin",
+        config = function()
+            require("bufferline").setup({
+                highlights = require("catppuccin.groups.integrations.bufferline").get(),
+            })
+        end,
+    })
+
+    use({
         "nvim-treesitter/nvim-treesitter",
         run = function()
             local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
