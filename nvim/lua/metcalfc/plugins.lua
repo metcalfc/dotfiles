@@ -77,6 +77,8 @@ return packer.startup(function(use)
         end,
     })
     use("jremmen/vim-ripgrep")
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+
 
     use({
         "nvim-tree/nvim-tree.lua",
