@@ -162,6 +162,8 @@ return packer.startup(function(use)
         end,
     })
 
+    use("tpope/vim-fugitive")
+
     use({
         "alexghergh/nvim-tmux-navigation",
         config = function()
