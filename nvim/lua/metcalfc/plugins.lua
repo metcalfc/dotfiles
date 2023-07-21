@@ -91,8 +91,33 @@ return packer.startup(function(use)
                 theme = "hyper",
                 config = {
                     header = require("metcalfc.config.dashboard"),
-                    -- not convinced
-                    footer = { [[]], [[☑️ Focus on what matters.]] },
+                    shortcut = {
+                        {
+                            desc = " Telescope",
+                            group = "DashboardShortCut",
+                            key = "t",
+                            action = "Telescope find_files",
+                        },
+                        {
+                            desc = " Plugins",
+                            group = "DashboardShortCut",
+                            key = "p",
+                            action = "e ~/src/dotfiles/nvim/lua/metcalfc/plugins.lua",
+                        },
+                        {
+                            desc = " GitHub",
+                            group = "DashboardShortCut",
+                            key = "g",
+                            action = "!open https://github.com/metcalfc/dotfiles",
+                        },
+                        {
+                            desc = "󰿟 Daytona",
+                            group = "DashboardShortCut",
+                            key = "d",
+                            action = "!open https://daytona.io",
+                        },
+                    },
+                    footer = { [[]], [[ Focus on what matters.]] },
                 },
             })
         end,
