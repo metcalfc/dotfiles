@@ -41,6 +41,9 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", "<cmd>NvimTreeToggle<cr>")
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFocus<cr>")
 
+vim.keymap.set("n", "<leader>n", "<cmd> set nu! <CR>")
+vim.keymap.set("n", "<leader>rn", "<cmd> set rnu! <CR>")
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
