@@ -79,6 +79,12 @@ return packer.startup(function(use)
     use("jremmen/vim-ripgrep")
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
+    use({
+        "numToStr/Comment.nvim",
+        config = function()
+            require("Comment").setup()
+        end,
+    })
 
     use({
         "nvim-tree/nvim-tree.lua",
