@@ -3,7 +3,7 @@
 # Check for Homebrew
 if test $(which brew)
 then
-    brew install coreutils
+    brew install coreutils keychain
 fi
 
 if [[ ! -z "${WSL_DISTRO_NAME}" ]]; then
