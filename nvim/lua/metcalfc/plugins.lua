@@ -124,6 +124,8 @@ return packer.startup(function(use)
         requires = { "nvim-tree/nvim-web-devicons" },
     })
 
+    use({ "lewis6991/gitsigns.nvim" })
+
     use({
         "folke/which-key.nvim",
         config = function()
