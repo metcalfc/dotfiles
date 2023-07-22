@@ -200,6 +200,8 @@ return packer.startup(function(use)
         end,
     })
 
+    use({ "tpope/vim-sleuth" })
+
     use({
         "ellisonleao/glow.nvim",
         config = function()
