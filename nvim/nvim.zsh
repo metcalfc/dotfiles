@@ -2,4 +2,3 @@ alias packvim="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'Pack
 alias vi=nvim
 alias vim=nvim
 export EDITOR=nvim
-
