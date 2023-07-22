@@ -25,8 +25,9 @@ if [ ${ISWSL} -eq 2 ]; then
         (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
     fi
 else
-    # Only keychain if we're not forwarding ssh from elsewhere
-    if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+    # Only keychain if we're not forwarding ssh from elsewhere. MacOS
+    # seems to also set SSH_AUTH_SOCK so just keychain up on MacOS.
+    if [[ -z "${SSH_AUTH_SOCK}" ]] || [[ $OSTYPE == 'darwin'* ]]; then
         eval $(keychain --eval --agents ssh id_ed25519_sk id_rsa)
     fi
 fi
