@@ -4,6 +4,14 @@
 if test "$(which brew)"; then
   brew install neovim \
     ripgrep \
+    fd \
+    stylua \
+    prettier \
+    shfmt \
+    yamlfmt \
+    hadolint \
+    checkmake \
+    shellcheck
 fi
 
 if [ ! -L "${HOME}/.config/nvim" ]; then
